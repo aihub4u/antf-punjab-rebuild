@@ -27,7 +27,7 @@ export default function DistrictWiseReport() {
 
   return (
     <div className="p-6">
-      <h1 className="text-lg font-semibold text-purple-900 mb-4">District Wise Report</h1>
+      <h1 className="text-lg font-semibold text-[#3e1654] mb-4">District Wise Report</h1>
 
       <div className="bg-white rounded shadow-sm p-4 mb-4 flex flex-wrap gap-3 items-end">
         {/* Update 3 (CR): Action Result filter, only meaningful for Information Status Wise */}
@@ -76,7 +76,7 @@ export default function DistrictWiseReport() {
       {data && data.rows.length > 0 && (
         <div className="bg-white rounded shadow-sm overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-purple-900 text-white">
+            <thead className="bg-[#500579] text-white">
               <tr>
                 {columns.map((c) => (
                   <th key={c} className="px-3 py-2 text-left">{c}</th>
@@ -85,7 +85,7 @@ export default function DistrictWiseReport() {
             </thead>
             <tbody>
               {data.rows.map((row, i) => (
-                <tr key={i} className={`border-t border-slate-100 ${row.District === 'Total' ? 'font-semibold bg-slate-50' : ''}`}>
+                <tr key={i} className={`border-t border-slate-100 ${row.District === 'Total' ? 'font-semibold bg-slate-50' : i % 2 === 1 ? 'bg-[#f6e6ff]' : ''}`}>
                   {columns.map((c) => (
                     <td key={c} className="px-3 py-2">
                       {c === 'Open' && row._openLink ? (
@@ -128,8 +128,8 @@ function DrilldownLink({ link, value, filters }) {
 
 function Field({ label, children }) {
   return (
-    <div>
-      <label className="block text-xs text-slate-500 mb-1">{label}</label>
+    <div className="coolinput">
+      <label className="field-label">{label}</label>
       {children}
     </div>
   );

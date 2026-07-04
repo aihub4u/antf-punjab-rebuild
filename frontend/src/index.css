@@ -1,7 +1,34 @@
 @import "tailwindcss";
 
 @layer components {
+  /* Matches the original app's .coolinput exactly: 2px solid purple border,
+     floating label overlapping the top border, white background. */
+  .coolinput {
+    @apply flex flex-col relative;
+  }
+  .field-label {
+    font-size: 0.7rem;
+    color: #7e599c;
+    font-weight: 700;
+    position: relative;
+    top: 0.55rem;
+    margin: 0 0 0 7px;
+    padding: 0 4px;
+    background: #fff;
+    width: fit-content;
+    z-index: 1;
+  }
   .input {
-    @apply w-full border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-slate-100 disabled:text-slate-400;
+    padding: 10px;
+    font-size: 0.8rem;
+    border: 2px solid #7e599c;
+    border-radius: 5px;
+    background: #fff;
+  }
+  .input:focus {
+    outline: none;
+  }
+  .input:disabled {
+    @apply bg-slate-100 text-slate-400;
   }
 }

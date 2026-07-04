@@ -13,7 +13,7 @@ export default function ComplaintDetail() {
 
   return (
     <div className="p-6">
-      <h1 className="text-lg font-semibold text-purple-900 mb-4">
+      <h1 className="text-lg font-semibold text-[#3e1654] mb-4">
         Complaint Detail — {params.type}
       </h1>
 
@@ -24,7 +24,7 @@ export default function ComplaintDetail() {
       {data && data.rows.length > 0 && (
         <div className="bg-white rounded shadow-sm overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-purple-900 text-white">
+            <thead className="bg-[#500579] text-white">
               <tr>
                 {visibleColumns.map((c) => (
                   <th key={c} className="px-3 py-2 text-left whitespace-nowrap">{c}</th>
@@ -33,7 +33,7 @@ export default function ComplaintDetail() {
             </thead>
             <tbody>
               {data.rows.map((row, i) => (
-                <tr key={i} className="border-t border-slate-100">
+                <tr key={i} className="border-t border-slate-100 odd:bg-[#f6e6ff]">
                   {visibleColumns.map((c) => (
                     <td key={c} className="px-3 py-2 whitespace-nowrap">{String(row[c] ?? '')}</td>
                   ))}

@@ -94,7 +94,7 @@ export default function CloseStatus() {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-lg font-semibold text-purple-900 mb-4">Close Status</h1>
+      <h1 className="text-lg font-semibold text-[#3e1654] mb-4">Close Status</h1>
 
       {formError && (
         <div className="bg-red-50 text-red-700 text-sm rounded p-2 mb-4">{formError}</div>
@@ -244,7 +244,7 @@ export default function CloseStatus() {
           <button
             type="submit"
             disabled={closeMutation.isPending}
-            className="bg-purple-900 text-white px-5 py-2 rounded font-medium hover:bg-purple-800 disabled:opacity-50"
+            className="bg-[#3e1654] text-white px-5 py-2 rounded font-medium hover:bg-[#5b2478] disabled:opacity-50"
           >
             {closeMutation.isPending ? 'Submitting...' : 'Submit'}
           </button>
@@ -263,8 +263,8 @@ export default function CloseStatus() {
 
 function Field({ label, children }) {
   return (
-    <div>
-      <label className="block text-sm text-slate-600 mb-1">{label}</label>
+    <div className="coolinput">
+      <label className="field-label">{label}</label>
       {children}
     </div>
   );

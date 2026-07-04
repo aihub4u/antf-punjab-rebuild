@@ -30,7 +30,7 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="bg-white rounded-lg shadow-md p-8 w-full max-w-sm"
       >
-        <h1 className="text-xl font-semibold text-purple-900 mb-6 text-center">
+        <h1 className="text-xl font-semibold text-[#3e1654] mb-6 text-center">
           SafePunjab
         </h1>
 
@@ -40,29 +40,33 @@ export default function Login() {
           </div>
         )}
 
-        <label className="block text-sm text-slate-600 mb-1">Mobile No / Username</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full border border-slate-300 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          required
-          autoFocus
-        />
+        <div className="coolinput mb-4">
+          <label className="field-label">Mobile No / Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="input"
+            required
+            autoFocus
+          />
+        </div>
 
-        <label className="block text-sm text-slate-600 mb-1">Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-slate-300 rounded px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          required
-        />
+        <div className="coolinput mb-6">
+          <label className="field-label">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input"
+            required
+          />
+        </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-purple-900 text-white rounded py-2 font-medium hover:bg-purple-800 disabled:opacity-50"
+          className="w-full bg-[#3e1654] text-white rounded py-2 font-medium hover:bg-[#5b2478] disabled:opacity-50"
         >
           {loading ? 'Signing in...' : 'Login'}
         </button>

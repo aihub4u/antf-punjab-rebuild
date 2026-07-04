@@ -44,6 +44,10 @@ export default function App() {
               element={<ProtectedRoute><Placeholder name="My Account" /></ProtectedRoute>}
             />
             <Route
+              path="/change-password"
+              element={<ProtectedRoute><Placeholder name="Change Password" /></ProtectedRoute>}
+            />
+            <Route
               path="/close-status/:id"
               element={<ProtectedRoute><CloseStatus /></ProtectedRoute>}
             />

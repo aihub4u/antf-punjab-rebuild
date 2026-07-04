@@ -48,7 +48,7 @@ export default function ViewRequest() {
 
   return (
     <div className="p-6">
-      <h1 className="text-lg font-semibold text-purple-900 mb-4">View Request</h1>
+      <h1 className="text-lg font-semibold text-[#3e1654] mb-4">View Request</h1>
 
       <div className="bg-white rounded shadow-sm p-4 mb-4 flex flex-wrap gap-3 items-end">
         <FilterField label="Status">
@@ -108,7 +108,7 @@ export default function ViewRequest() {
       {data && data.rows.length > 0 && (
         <div className="bg-white rounded shadow-sm overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-purple-900 text-white">
+            <thead className="bg-[#500579] text-white">
               <tr>
                 <th className="px-3 py-2 text-left">Information ID</th>
                 <th className="px-3 py-2 text-left">Category</th>
@@ -121,7 +121,7 @@ export default function ViewRequest() {
             </thead>
             <tbody>
               {data.rows.map((row) => (
-                <tr key={row['Information ID']} className="border-t border-slate-100">
+                <tr key={row['Information ID']} className="border-t border-slate-100 odd:bg-[#f6e6ff]">
                   <td className="px-3 py-2">
                     <a
                       href={`/view-detail/${row['Information ID']}`}
@@ -180,8 +180,8 @@ export default function ViewRequest() {
 
 function FilterField({ label, children }) {
   return (
-    <div>
-      <label className="block text-xs text-slate-500 mb-1">{label}</label>
+    <div className="coolinput">
+      <label className="field-label">{label}</label>
       {children}
     </div>
   );

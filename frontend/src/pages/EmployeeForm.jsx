@@ -80,7 +80,7 @@ export default function EmployeeForm() {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-lg font-semibold text-purple-900 mb-4">
+      <h1 className="text-lg font-semibold text-[#3e1654] mb-4">
         {id ? 'Edit Employee' : 'Add Employee'}
       </h1>
 
@@ -191,7 +191,7 @@ export default function EmployeeForm() {
           <button
             type="submit"
             disabled={saveMutation.isPending}
-            className="bg-purple-900 text-white px-5 py-2 rounded font-medium hover:bg-purple-800 disabled:opacity-50"
+            className="bg-[#3e1654] text-white px-5 py-2 rounded font-medium hover:bg-[#5b2478] disabled:opacity-50"
           >
             {saveMutation.isPending ? 'Saving...' : 'Submit'}
           </button>
@@ -210,8 +210,8 @@ export default function EmployeeForm() {
 
 function Field({ label, children }) {
   return (
-    <div>
-      <label className="block text-sm text-slate-600 mb-1">{label}</label>
+    <div className="coolinput">
+      <label className="field-label">{label}</label>
       {children}
     </div>
   );

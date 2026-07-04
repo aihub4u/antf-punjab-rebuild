@@ -31,8 +31,8 @@ export default function EmployeeList() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-lg font-semibold text-purple-900">Employees</h1>
-        <Link to="/employees/new" className="bg-purple-900 text-white px-4 py-2 rounded text-sm font-medium">
+        <h1 className="text-lg font-semibold text-[#3e1654]">Employees</h1>
+        <Link to="/employees/new" className="bg-[#3e1654] text-white px-4 py-2 rounded text-sm font-medium">
           + Add Employee
         </Link>
       </div>
@@ -63,7 +63,7 @@ export default function EmployeeList() {
       {employees && employees.length > 0 && (
         <div className="bg-white rounded shadow-sm overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-purple-900 text-white">
+            <thead className="bg-[#500579] text-white">
               <tr>
                 <th className="px-3 py-2">
                   <input type="checkbox" onChange={(e) => toggleAll(e.target.checked)} />
@@ -79,7 +79,7 @@ export default function EmployeeList() {
             </thead>
             <tbody>
               {employees.map((emp) => (
-                <tr key={emp.ID} className="border-t border-slate-100">
+                <tr key={emp.ID} className="border-t border-slate-100 odd:bg-[#f6e6ff]">
                   <td className="px-3 py-2 text-center">
                     <input type="checkbox" checked={selected.has(emp.ID)} onChange={() => toggle(emp.ID)} />
                   </td>
@@ -119,8 +119,8 @@ export default function EmployeeList() {
 
 function Field({ label, children }) {
   return (
-    <div>
-      <label className="block text-xs text-slate-500 mb-1">{label}</label>
+    <div className="coolinput">
+      <label className="field-label">{label}</label>
       {children}
     </div>
   );

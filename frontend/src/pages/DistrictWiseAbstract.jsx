@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useDistrictWiseAbstract } from '../hooks/useApi';
 
 const dateStr = (d) => d.toISOString().split('T')[0];
@@ -18,8 +18,9 @@ const COLUMNS = [
 ];
 
 export default function DistrictWiseAbstract() {
+  const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState({
-    isVdc: '0',
+    isVdc: searchParams.get('isVdc') || '0',
     fromDate: dateStr(yesterday),
     toDate: dateStr(yesterday),
   });
@@ -29,7 +30,7 @@ export default function DistrictWiseAbstract() {
 
   return (
     <div className="p-6">
-      <h1 className="text-lg font-semibold text-purple-900 mb-4">District Wise Abstract</h1>
+      <h1 className="text-lg font-semibold text-[#3e1654] mb-4">District Wise Abstract</h1>
 
       <div className="bg-white rounded shadow-sm p-4 mb-4 flex flex-wrap gap-3 items-end">
         <Field label="Source">
@@ -53,7 +54,7 @@ export default function DistrictWiseAbstract() {
       {data && data.rows.length > 0 && (
         <div className="bg-white rounded shadow-sm overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-purple-900 text-white">
+            <thead className="bg-[#500579] text-white">
               <tr>
                 {COLUMNS.map((c) => (
                   <th key={c} className="px-3 py-2 text-left whitespace-nowrap">{c}</th>
@@ -62,7 +63,7 @@ export default function DistrictWiseAbstract() {
             </thead>
             <tbody>
               {data.rows.map((row, i) => (
-                <tr key={i} className={`border-t border-slate-100 ${row.District === 'Total' ? 'font-semibold bg-slate-50' : ''}`}>
+                <tr key={i} className={`border-t border-slate-100 ${row.District === 'Total' ? 'font-semibold bg-slate-50' : i % 2 === 1 ? 'bg-[#f6e6ff]' : ''}`}>
                   {COLUMNS.map((c) => (
                     <td key={c} className="px-3 py-2">
                       {c !== 'District' && row._links?.[c] ? (
@@ -103,8 +104,8 @@ function DrilldownLink({ link, value, filters }) {
 
 function Field({ label, children }) {
   return (
-    <div>
-      <label className="block text-xs text-slate-500 mb-1">{label}</label>
+    <div className="coolinput">
+      <label className="field-label">{label}</label>
       {children}
     </div>
   );
