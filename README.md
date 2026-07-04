@@ -59,6 +59,57 @@ npm run dev
 ```
 Visit `http://localhost:5173/login`. Vite is configured to proxy `/api` requests to `http://localhost:4000`, where the backend runs.
 
+## Feature Parity Audit (full page-by-page comparison)
+
+The old app has 24 pages (excluding the 2 webhooks, which are done). Here's the complete status after this pass:
+
+| Old page | Status | New route |
+|---|---|---|
+| Login.aspx | ✅ Done | `/login` |
+| Logout.aspx | ✅ Done | handled in AuthContext |
+| Dashboard.aspx | ✅ Done | `/dashboard` |
+| ViewRequest.aspx | ✅ Done | `/view-request` |
+| Close.aspx | ✅ Done (full CR) | `/close-status/:id` |
+| ReportDistrictWise.aspx | ✅ Done | `/reports/district-wise` |
+| ReportDistrictWiseAbstract.aspx | ✅ Done | `/reports/district-wise-abstract?isVdc=0` |
+| ReportDistrictWiseVDCAbstract.aspx | ✅ Done | `/reports/district-wise-abstract?isVdc=1` |
+| ReportComplaintWiseDetail.aspx | ✅ Done | `/reports/complaint-detail` |
+| ReportVDCAbstractDetail.aspx | ✅ Done | `/reports/vdc-abstract-detail` |
+| AEEmployee.aspx | ✅ Done | `/employees/new`, `/employees/:id` |
+| ViewEmployee.aspx | ✅ Done | `/employees` |
+| MobileListener.aspx | ✅ Done | `/MobileListener.aspx` |
+| B2BWebService.aspx | ✅ Done | `/B2BWebService.aspx` |
+| **Abstract.aspx** | ✅ Done this pass | `/abstract` |
+| **MyAccount.aspx** | ✅ Done this pass | `/my-account` |
+| **ChangePassword.aspx** | ✅ Done this pass | `/change-password` |
+| **Forward.aspx** | ✅ Done this pass | `/forward/:id` |
+| **Return.aspx** | ✅ Done this pass | `/return/:id` |
+| **Reopen.aspx** | ✅ Done this pass | `/reopen/:id` |
+| **UpdateFIRNo.aspx** | ✅ Done this pass | `/update-fir/:id` |
+| **NoPage.aspx** | ✅ Done this pass | catch-all 404 route |
+| **AEInfo.aspx** | ❌ Not built | complaint intake/edit form (~100 fields, category-specific) |
+| **AESubstance.aspx** | ❌ Not built | add/edit substance record (308 lines) |
+| **ViewSubstance.aspx** | ❌ Not built | view substance records (124 lines) |
+| **ViewDetail.aspx** | ❌ Not built | full complaint detail view - **the largest gap** (730 lines in the original, renders ~100 category-specific fields). Every "Information ID" link in View Request currently points here and will 404 until this exists. |
+| **ViewRequestAll.aspx** | ❌ Not built | admin-wide request list without contact filtering (355 lines). Abstract's drill-down links currently point at `/view-request` as an interim substitute — not fully correct, since that page filters by logged-in contact and this one doesn't. |
+
+## What this pass actually fixed
+
+Previously, several buttons in View Request were **dead links** — Forward, Action (Return), ReOpen, and the FIR Number link all pointed at routes that didn't exist. Those are now fully wired end-to-end (frontend page + backend route + real stored proc calls), so the core "act on a complaint" workflow is no longer broken partway through.
+
+Also fixed along the way:
+- **Change Password** now checks the old password's bcrypt hash against the database directly, rather than the old app's approach of comparing against a plaintext copy kept in server-side session state
+- **View Request** now reads `?s=` and `?i=` query params on load, restoring the deep-link behavior the old app used from Dashboard/Abstract/MyAccount's summary links
+
+## What's genuinely still missing (in priority order for next pass)
+
+1. **ViewDetail.aspx** — highest priority. Every complaint ID link in the app points here.
+2. **AEInfo.aspx** — the web-based complaint intake/edit form, mirrors the ~100-field shape we already handled once for `MobileListener`'s method 5, but with its own conditional show/hide logic per category.
+3. **AESubstance.aspx / ViewSubstance.aspx** — substance tracking, linked from View Request's Cells[24] Add/View links.
+4. **ViewRequestAll.aspx** — needed for Abstract's drill-down links to be fully correct (currently substituted with View Request, which isn't quite equivalent).
+
+I did not attempt these four in this pass — they're large (300–730 lines each) and I'd rather build them carefully with the same verify-against-source discipline used throughout this project than rush them and introduce the kind of subtle bug we already caught once with the missing `</div>` earlier. Want me to continue with these next, starting with ViewDetail?
+
 ## What's next (in order)
 1. ~~Close Status page~~ ✅ done
 2. ~~Dashboard + View Request~~ ✅ done

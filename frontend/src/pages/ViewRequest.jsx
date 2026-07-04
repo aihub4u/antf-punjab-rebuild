@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useViewRequest } from '../hooks/useApi';
 
@@ -30,11 +30,12 @@ const BADGE_STYLES = {
 
 export default function ViewRequest() {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState({
-    status: '',
+    status: searchParams.get('s') || '',
     fromDate: dateStr(oneYearAgo),
     toDate: dateStr(new Date()),
-    cstatus: user?.designationId === 5 ? 'Open' : 'Open',
+    cstatus: searchParams.get('i') || (user?.designationId === 5 ? 'Open' : 'Open'),
     ownership: user?.designationId === 5 ? 'HeadQuarter' : '',
     infoId: '',
     source: '99',

@@ -55,6 +55,8 @@ router.post('/login', loginLimiter, async (req, res) => {
       departmentName: user.DepartmentName,
       districtId: user.DistrictID,
       districtName: user.DistrictEng,
+      mobileNo: user.Mobileno,
+      emailId: user.EmailID,
       isHead: !!user.IsHead,
       isANTF: !!user.IsANTF,
     };

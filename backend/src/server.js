@@ -9,6 +9,9 @@ const viewRequestRoutes = require('./routes/viewRequest');
 const dashboardRoutes = require('./routes/dashboard');
 const reportsRoutes = require('./routes/reports');
 const employeesRoutes = require('./routes/employees');
+const workflowRoutes = require('./routes/workflow');
+const changePasswordRoutes = require('./routes/changePassword');
+const abstractRoutes = require('./routes/abstract');
 const mobileListenerRoutes = require('./routes/mobileListener');
 const notificationsRoutes = require('./routes/notifications');
 const runMigrationRoutes = require('./routes/runMigration');
@@ -26,6 +29,9 @@ app.use('/api/view-request', viewRequestRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/employees', employeesRoutes);
+app.use('/api/workflow', workflowRoutes);
+app.use('/api/change-password', changePasswordRoutes);
+app.use('/api/abstract', abstractRoutes);
 app.use('/uploads', express.static(require('path').join(__dirname, '../uploads')));
 
 // Mounted at their exact legacy .aspx paths (NOT under /api) so external

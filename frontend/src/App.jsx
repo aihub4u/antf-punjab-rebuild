@@ -12,13 +12,16 @@ import ComplaintDetail from './pages/ComplaintDetail';
 import VdcAbstractDetail from './pages/VdcAbstractDetail';
 import EmployeeList from './pages/EmployeeList';
 import EmployeeForm from './pages/EmployeeForm';
+import Abstract from './pages/Abstract';
+import MyAccount from './pages/MyAccount';
+import ChangePassword from './pages/ChangePassword';
+import Forward from './pages/Forward';
+import ReturnAction from './pages/ReturnAction';
+import Reopen from './pages/Reopen';
+import UpdateFIRNo from './pages/UpdateFIRNo';
+import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
-
-// Placeholder pages - each gets built out as its own milestone.
-function Placeholder({ name }) {
-  return <div className="p-8 text-slate-500">{name} — coming next</div>;
-}
 
 export default function App() {
   return (
@@ -27,59 +30,25 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route
-              path="/abstract"
-              element={<ProtectedRoute><Placeholder name="Abstract" /></ProtectedRoute>}
-            />
-            <Route
-              path="/dashboard"
-              element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
-            />
-            <Route
-              path="/view-request"
-              element={<ProtectedRoute><ViewRequest /></ProtectedRoute>}
-            />
-            <Route
-              path="/my-account"
-              element={<ProtectedRoute><Placeholder name="My Account" /></ProtectedRoute>}
-            />
-            <Route
-              path="/change-password"
-              element={<ProtectedRoute><Placeholder name="Change Password" /></ProtectedRoute>}
-            />
-            <Route
-              path="/close-status/:id"
-              element={<ProtectedRoute><CloseStatus /></ProtectedRoute>}
-            />
-            <Route
-              path="/reports/district-wise"
-              element={<ProtectedRoute><DistrictWiseReport /></ProtectedRoute>}
-            />
-            <Route
-              path="/reports/district-wise-abstract"
-              element={<ProtectedRoute><DistrictWiseAbstract /></ProtectedRoute>}
-            />
-            <Route
-              path="/reports/complaint-detail"
-              element={<ProtectedRoute><ComplaintDetail /></ProtectedRoute>}
-            />
-            <Route
-              path="/reports/vdc-abstract-detail"
-              element={<ProtectedRoute><VdcAbstractDetail /></ProtectedRoute>}
-            />
-            <Route
-              path="/employees"
-              element={<ProtectedRoute><EmployeeList /></ProtectedRoute>}
-            />
-            <Route
-              path="/employees/new"
-              element={<ProtectedRoute><EmployeeForm /></ProtectedRoute>}
-            />
-            <Route
-              path="/employees/:id"
-              element={<ProtectedRoute><EmployeeForm /></ProtectedRoute>}
-            />
+            <Route path="/abstract" element={<ProtectedRoute><Abstract /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/view-request" element={<ProtectedRoute><ViewRequest /></ProtectedRoute>} />
+            <Route path="/my-account" element={<ProtectedRoute><MyAccount /></ProtectedRoute>} />
+            <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
+            <Route path="/close-status/:id" element={<ProtectedRoute><CloseStatus /></ProtectedRoute>} />
+            <Route path="/forward/:id" element={<ProtectedRoute><Forward /></ProtectedRoute>} />
+            <Route path="/return/:id" element={<ProtectedRoute><ReturnAction /></ProtectedRoute>} />
+            <Route path="/reopen/:id" element={<ProtectedRoute><Reopen /></ProtectedRoute>} />
+            <Route path="/update-fir/:id" element={<ProtectedRoute><UpdateFIRNo /></ProtectedRoute>} />
+            <Route path="/reports/district-wise" element={<ProtectedRoute><DistrictWiseReport /></ProtectedRoute>} />
+            <Route path="/reports/district-wise-abstract" element={<ProtectedRoute><DistrictWiseAbstract /></ProtectedRoute>} />
+            <Route path="/reports/complaint-detail" element={<ProtectedRoute><ComplaintDetail /></ProtectedRoute>} />
+            <Route path="/reports/vdc-abstract-detail" element={<ProtectedRoute><VdcAbstractDetail /></ProtectedRoute>} />
+            <Route path="/employees" element={<ProtectedRoute><EmployeeList /></ProtectedRoute>} />
+            <Route path="/employees/new" element={<ProtectedRoute><EmployeeForm /></ProtectedRoute>} />
+            <Route path="/employees/:id" element={<ProtectedRoute><EmployeeForm /></ProtectedRoute>} />
             <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

@@ -139,3 +139,55 @@ export function useSaveEmployee(id) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['employees'] }),
   });
 }
+
+export function useForwardEmployees(id) {
+  return useQuery({
+    queryKey: ['forward-employees', id],
+    queryFn: async () => (await api.get(`/workflow/employees/${id}`)).data,
+    enabled: !!id,
+  });
+}
+
+export function useForward(id) {
+  return useMutation({
+    mutationFn: async (formData) => (await api.post(`/workflow/forward/${id}`, formData)).data,
+  });
+}
+
+export function useReturnAction(id) {
+  return useMutation({
+    mutationFn: async (formData) => (await api.post(`/workflow/return/${id}`, formData)).data,
+  });
+}
+
+export function useReopen(id) {
+  return useMutation({
+    mutationFn: async () => (await api.post(`/workflow/reopen/${id}`)).data,
+  });
+}
+
+export function useUpdateFirNumber(id) {
+  return useMutation({
+    mutationFn: async (payload) => (await api.post(`/workflow/fir-number/${id}`, payload)).data,
+  });
+}
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: async (payload) => (await api.post('/change-password', payload)).data,
+  });
+}
+
+export function useAbstract() {
+  return useQuery({
+    queryKey: ['abstract'],
+    queryFn: async () => (await api.get('/abstract')).data,
+  });
+}
+
+export function useMyAccountAbstract() {
+  return useQuery({
+    queryKey: ['abstract-my-account'],
+    queryFn: async () => (await api.get('/abstract/my-account')).data,
+  });
+}
