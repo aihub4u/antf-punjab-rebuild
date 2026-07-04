@@ -11,6 +11,7 @@ const reportsRoutes = require('./routes/reports');
 const employeesRoutes = require('./routes/employees');
 const mobileListenerRoutes = require('./routes/mobileListener');
 const notificationsRoutes = require('./routes/notifications');
+const runMigrationRoutes = require('./routes/runMigration');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/uploads', express.static(require('path').join(__dirname, '../uploads')
 // important note on why B2BWebService's URL in particular can't move.
 app.use('/MobileListener.aspx', mobileListenerRoutes);
 app.use('/', notificationsRoutes);
+app.use('/', runMigrationRoutes);
 
 // More routers get mounted here as each page is rebuilt.
 

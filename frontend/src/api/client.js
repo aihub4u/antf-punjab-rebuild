@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// In local dev, Vite proxies '/api' to localhost:4000 (see vite.config.js).
+// In production (Vercel), set VITE_API_URL to your Render backend's full URL,
+// e.g. https://antf-backend.onrender.com/api
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 api.interceptors.request.use((config) => {
