@@ -87,11 +87,11 @@ The old app has 24 pages (excluding the 2 webhooks, which are done). Here's the 
 | **Reopen.aspx** | ✅ Done this pass | `/reopen/:id` |
 | **UpdateFIRNo.aspx** | ✅ Done this pass | `/update-fir/:id` |
 | **NoPage.aspx** | ✅ Done this pass | catch-all 404 route |
-| **AEInfo.aspx** | ❌ Not built | complaint intake/edit form (~100 fields, category-specific) |
-| **AESubstance.aspx** | ❌ Not built | add/edit substance record (308 lines) |
-| **ViewSubstance.aspx** | ❌ Not built | view substance records (124 lines) |
-| **ViewDetail.aspx** | ❌ Not built | full complaint detail view - **the largest gap** (730 lines in the original, renders ~100 category-specific fields). Every "Information ID" link in View Request currently points here and will 404 until this exists. |
-| **ViewRequestAll.aspx** | ❌ Not built | admin-wide request list without contact filtering (355 lines). Abstract's drill-down links currently point at `/view-request` as an interim substitute — not fully correct, since that page filters by logged-in contact and this one doesn't. |
+| **AEInfo.aspx** | ✅ Done this pass | `/ae-info/:id` |
+| **AESubstance.aspx** | ✅ Done this pass | `/add-substance/:id` |
+| **ViewSubstance.aspx** | ✅ Done this pass | `/view-substance/:id` |
+| **ViewDetail.aspx** | ✅ Done this pass | `/view-detail/:id` |
+| **ViewRequestAll.aspx** | ✅ Done this pass | `/view-request-all` |
 
 ## What this pass actually fixed
 
@@ -103,12 +103,23 @@ Also fixed along the way:
 
 ## What's genuinely still missing (in priority order for next pass)
 
-1. **ViewDetail.aspx** — highest priority. Every complaint ID link in the app points here.
-2. **AEInfo.aspx** — the web-based complaint intake/edit form, mirrors the ~100-field shape we already handled once for `MobileListener`'s method 5, but with its own conditional show/hide logic per category.
-3. **AESubstance.aspx / ViewSubstance.aspx** — substance tracking, linked from View Request's Cells[24] Add/View links.
-4. **ViewRequestAll.aspx** — needed for Abstract's drill-down links to be fully correct (currently substituted with View Request, which isn't quite equivalent).
+## All 24 pages are now accounted for
 
-I did not attempt these four in this pass — they're large (300–730 lines each) and I'd rather build them carefully with the same verify-against-source discipline used throughout this project than rush them and introduce the kind of subtle bug we already caught once with the missing `</div>` earlier. Want me to continue with these next, starting with ViewDetail?
+That closes out the full page-by-page audit — every page in the original app has a working equivalent in the rebuild.
+
+**What was built in this final pass:**
+- **AEInfo.aspx → `/ae-info/:id`** — turned out to be much smaller in scope than its category-conditional complaint-intake cousin (`MobileListener`'s method 5): it's just a category/subcategory/district reclassification form, calling `UpdateInfo`.
+- **AESubstance.aspx → `/add-substance/:id`** — dynamic add/remove rows for substance seizure records (substance, quantity, MI/GM multi-substance flag). The original built pipe-delimited parallel string arrays from GridView rows to pass to `InsertSubstance`; the rebuild sends a proper JSON array from the frontend and builds those pipe-delimited strings server-side, so the quirky wire format doesn't leak into the UI code.
+- **ViewSubstance.aspx → `/view-substance/:id`** — read-only substance list, calls `GetSubstance`.
+- **ViewRequestAll.aspx → `/view-request-all`** — the admin-wide, non-contact-scoped request list with free-text search and pagination, calling `GetRequestListall`. Abstract's drill-down links now correctly point here instead of the interim `/view-request` substitute from the previous pass.
+
+**One real gap caught and fixed while doing this pass:** while adapting View Request's rendering logic for View Request All, I noticed the original app always showed "Add / View Substance" links on every closed complaint row (`Cells[24]`), completely unrelated to the row-action buttons (Forward/Close/Return/Reopen) — and this had been missed when View Request was first built. Fixed in both `viewRequest.js` and the new `viewRequestAll.js` via a shared `showsSubstanceLinks()` helper, and the missing links are now rendered in both pages' tables.
+
+**Also refactored:** the row-action computation logic (`computeRowAction`) was originally only in `viewRequest.js`; since `ViewRequestAll` needed the identical logic, it's now extracted to `src/utils/rowActions.js` and imported by both routes — so the two list pages can't silently drift apart on what actions a given role sees.
+
+## ViewDetail.aspx — how it was rebuilt
+
+This was the largest single gap (730 lines in the original) and every "Information ID" link across the entire app points here, so it was the right thing to prioritize. Rather than hand-transcribing ~50 near-identical "show this row only if the field has a value" conditional blocks, I extracted the full list of ~80 fields the original could display (verified against `GetInfo`'s actual `SELECT` column aliases in the stored procedure, not guessed), and built a generic renderer: a field is grouped under its category (Dealer, Substance, FIR, Addict, Victim, Suspect, Volunteer, etc.) and only shown when it has a value — which reproduces the original's category-conditional display exactly, since irrelevant fields for a given complaint category are simply blank in the data. Also includes the "Update History" audit trail table (the second result set `GetInfo` returns) with file-type icons, matching the original's file-icon-by-extension logic used elsewhere in the app.
 
 ## What's next (in order)
 1. ~~Close Status page~~ ✅ done

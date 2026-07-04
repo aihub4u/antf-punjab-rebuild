@@ -118,6 +118,7 @@ export default function ViewRequest() {
                 <th className="px-3 py-2 text-left">Action</th>
                 <th className="px-3 py-2 text-left">FIR Registered</th>
                 <th className="px-3 py-2 text-left">FIR Document</th>
+                <th className="px-3 py-2 text-left">Substance</th>
               </tr>
             </thead>
             <tbody>
@@ -167,6 +168,18 @@ export default function ViewRequest() {
                       <a href={row['Fir Document']} target="_blank" rel="noreferrer" className="text-purple-700 underline">
                         {row._firDocumentType}
                       </a>
+                    )}
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    {row._showSubstanceLinks && (
+                      <>
+                        <a href={`/add-substance/${row['Information ID']}`} target="_blank" rel="noreferrer" className="text-purple-700 underline mr-2">
+                          Add
+                        </a>
+                        <a href={`/view-substance/${row['Information ID']}`} target="_blank" rel="noreferrer" className="text-purple-700 underline">
+                          View
+                        </a>
+                      </>
                     )}
                   </td>
                 </tr>

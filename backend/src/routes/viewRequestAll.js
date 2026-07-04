@@ -12,30 +12,29 @@ router.get('/', requireAuth, async (req, res) => {
       fromDate,
       toDate,
       cstatus = 'Open',
-      ownership = '',
       infoId = '0',
+      freeSearch = '',
       source = '99',
-      isMoreInfo,
+      pageNumber = '0',
     } = req.query;
 
     const pool = await getPool();
     const request = pool
       .request()
-      .input('ContactID', sql.Int, req.user.contactId)
       .input('Status', sql.VarChar(50), status)
-      .input('FromDate', sql.Date, new Date(fromDate))
-      .input('ToDate', sql.Date, new Date(toDate))
-      .input('CStatus', sql.VarChar(10), cstatus)
-      .input('Ownership', sql.VarChar(50), ownership)
+      .input('fromdate', sql.Date, new Date(fromDate))
+      .input('todate', sql.Date, new Date(toDate))
+      .input('contactid', sql.Int, req.user.contactId)
+      .input('Cstatus', sql.VarChar(10), cstatus)
+      .input('PageNumber', sql.Int, parseInt(pageNumber, 10))
+      .output('PageCount', sql.Int)
+      .output('Total', sql.Int)
       .input('InfoID', sql.Int, parseInt(infoId, 10) || 0)
+      .input('FreeSearch', sql.VarChar(200), freeSearch)
       .input('Source', sql.Int, parseInt(source, 10));
 
-    if (isMoreInfo === 'true') {
-      request.input('IsMoreInfo', sql.Bit, true);
-    }
-
-    const result = await request.execute('GetRequestList');
-    const rows = result.recordset;
+    const result = await request.execute('GetRequestListall');
+    const rows = result.recordset || [];
 
     const enriched = rows.map((row) => ({
       ...row,
@@ -46,16 +45,14 @@ router.get('/', requireAuth, async (req, res) => {
       _showSubstanceLinks: showsSubstanceLinks(row),
     }));
 
-    // Column visibility, driven by department - decided once here rather
-    // than scattered index-based cell hiding in the old code.
-    const hiddenColumns =
-      req.user.departmentId === 2
-        ? ['Update', 'AllotedTo', 'ParentInfoID']
-        : ['Update', 'AllotedTo', 'ParentInfoID', 'IsReopen'];
-
-    res.json({ rows: enriched, hiddenColumns });
+    res.json({
+      rows: enriched,
+      pageCount: result.output.PageCount,
+      total: result.output.Total,
+      pageNumber: parseInt(pageNumber, 10),
+    });
   } catch (err) {
-    console.error('GetRequestList error:', err);
+    console.error('GetRequestListall error:', err);
     res.status(500).json({ error: 'Could not load the request list' });
   }
 });

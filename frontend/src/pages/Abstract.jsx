@@ -11,10 +11,7 @@ export default function Abstract() {
       {isLoading && <div className="text-slate-500">Loading...</div>}
       {error && <div className="text-red-600">Could not load summary.</div>}
 
-      {/* Note: original app's Abstract.aspx links to ViewRequestAll.aspx (an
-          admin-wide, non-contact-filtered request list), which hasn't been
-          rebuilt yet - these links currently go to /view-request instead. */}
-      <AbstractSummary data={data} linkBase="/view-request" />
+      <AbstractSummary data={data} linkBase="/view-request-all" />
     </div>
   );
 }

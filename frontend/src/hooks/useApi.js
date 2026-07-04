@@ -191,3 +191,47 @@ export function useMyAccountAbstract() {
     queryFn: async () => (await api.get('/abstract/my-account')).data,
   });
 }
+
+export function useViewDetail(id) {
+  return useQuery({
+    queryKey: ['view-detail', id],
+    queryFn: async () => (await api.get(`/view-detail/${id}`)).data,
+    enabled: !!id,
+  });
+}
+
+export function useAeInfoCategories(parentId) {
+  return useQuery({
+    queryKey: ['ae-info-categories', parentId],
+    queryFn: async () => (await api.get('/ae-info/categories', { params: parentId ? { parentId } : {} })).data,
+    enabled: parentId === undefined || (!!parentId && parentId !== '0'),
+  });
+}
+
+export function useUpdateAeInfo(id) {
+  return useMutation({
+    mutationFn: async (payload) => (await api.put(`/ae-info/${id}`, payload)).data,
+  });
+}
+
+export function useSubstance(infoId) {
+  return useQuery({
+    queryKey: ['substance', infoId],
+    queryFn: async () => (await api.get(`/substance/${infoId}`)).data,
+    enabled: !!infoId,
+  });
+}
+
+export function useSaveSubstance(infoId) {
+  return useMutation({
+    mutationFn: async (payload) => (await api.post(`/substance/${infoId}`, payload)).data,
+  });
+}
+
+export function useViewRequestAll(filters) {
+  return useQuery({
+    queryKey: ['view-request-all', filters],
+    queryFn: async () => (await api.get('/view-request-all', { params: filters })).data,
+    enabled: !!filters.fromDate && !!filters.toDate,
+  });
+}

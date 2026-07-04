@@ -19,6 +19,11 @@ import Forward from './pages/Forward';
 import ReturnAction from './pages/ReturnAction';
 import Reopen from './pages/Reopen';
 import UpdateFIRNo from './pages/UpdateFIRNo';
+import ViewDetail from './pages/ViewDetail';
+import AEInfo from './pages/AEInfo';
+import AESubstance from './pages/AESubstance';
+import ViewSubstance from './pages/ViewSubstance';
+import ViewRequestAll from './pages/ViewRequestAll';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -40,6 +45,11 @@ export default function App() {
             <Route path="/return/:id" element={<ProtectedRoute><ReturnAction /></ProtectedRoute>} />
             <Route path="/reopen/:id" element={<ProtectedRoute><Reopen /></ProtectedRoute>} />
             <Route path="/update-fir/:id" element={<ProtectedRoute><UpdateFIRNo /></ProtectedRoute>} />
+            <Route path="/view-detail/:id" element={<ProtectedRoute><ViewDetail /></ProtectedRoute>} />
+            <Route path="/ae-info/:id" element={<ProtectedRoute><AEInfo /></ProtectedRoute>} />
+            <Route path="/add-substance/:id" element={<ProtectedRoute><AESubstance /></ProtectedRoute>} />
+            <Route path="/view-substance/:id" element={<ProtectedRoute><ViewSubstance /></ProtectedRoute>} />
+            <Route path="/view-request-all" element={<ProtectedRoute><ViewRequestAll /></ProtectedRoute>} />
             <Route path="/reports/district-wise" element={<ProtectedRoute><DistrictWiseReport /></ProtectedRoute>} />
             <Route path="/reports/district-wise-abstract" element={<ProtectedRoute><DistrictWiseAbstract /></ProtectedRoute>} />
             <Route path="/reports/complaint-detail" element={<ProtectedRoute><ComplaintDetail /></ProtectedRoute>} />
